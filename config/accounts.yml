@@ -1,0 +1,25 @@
+# MBoard 账号配置
+# 修改后重启服务生效
+#
+# 密码支持两种写法（任选其一）：
+#   password: "明文"          适合内网快速使用
+#   passwordHash: "$2b$10$..." bcrypt 哈希，生产环境推荐
+# 生成哈希：npm run hash -- "你的密码"
+#
+# color 用于协作光标和头像底色
+
+users:
+  - username: admin
+    password: "admin123"
+    displayName: "管理员"
+    color: "#6353f5"
+
+  - username: maxy
+    password: "maxy123"
+    displayName: "Maxy"
+    color: "#0ea5e9"
+
+  - username: guest
+    password: "guest123"
+    displayName: "访客"
+    color: "#f59e0b"
