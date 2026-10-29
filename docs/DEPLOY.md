@@ -40,6 +40,8 @@ docker compose exec mboard node scripts/hash-password.mjs "你的新密码"
 
 把输出的 `passwordHash` 贴进配置文件，然后 `docker compose restart mboard`。
 
+默认账号为 maxy / tannami / fashi / tomato，密码都是 `123456`。用户登录后可以在「账号设置」里修改显示名和密码，修改结果保存在数据库里并覆盖配置文件的初始值。
+
 ## 3. 启动
 
 ```bash

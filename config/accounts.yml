@@ -6,20 +6,28 @@
 #   passwordHash: "$2b$10$..." bcrypt 哈希，生产环境推荐
 # 生成哈希：npm run hash -- "你的密码"
 #
+# 登录后可以在「账号设置」里修改自己的显示名、光标颜色和密码
+# 用户修改后的值保存在数据库里，会覆盖这里的初始值
+#
 # color 用于协作光标和头像底色
 
 users:
-  - username: admin
-    password: "admin123"
-    displayName: "管理员"
+  - username: maxy
+    password: "123456"
+    displayName: "Maxy"
     color: "#6353f5"
 
-  - username: maxy
-    password: "maxy123"
-    displayName: "Maxy"
+  - username: tannami
+    password: "123456"
+    displayName: "Tannami"
     color: "#0ea5e9"
 
-  - username: guest
-    password: "guest123"
-    displayName: "访客"
+  - username: fashi
+    password: "123456"
+    displayName: "Fashi"
+    color: "#10b981"
+
+  - username: tomato
+    password: "123456"
+    displayName: "Tomato"
     color: "#f59e0b"

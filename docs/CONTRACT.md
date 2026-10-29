@@ -12,7 +12,7 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 
 | 范围 | 负责人 | 允许修改 |
 | --- | --- | --- |
-| 基础设施、认证、工作台外壳、UI 组件、画布编辑器、协作服务、部署 | Lead | `app/layout.tsx` `app/page.tsx` `app/login/**` `app/(workspace)/layout.tsx` `app/canvas/**` `app/api/auth/**` `components/ui/**` `components/workspace/**` `components/brand.tsx` `components/theme-toggle.tsx` `lib/auth/**` `lib/http.ts` `lib/prisma.ts` `lib/types.ts` `lib/utils.ts` `lib/collab/**` `middleware.ts` `server.mjs` `prisma/**` 根配置 |
+| 基础设施、认证、工作台外壳、UI 组件、画布编辑器、协作服务、部署 | Lead | `app/layout.tsx` `app/page.tsx` `app/login/**` `app/(workspace)/layout.tsx` `app/(workspace)/settings/**` `app/canvas/**` `app/api/auth/**` `app/api/account/**` `components/ui/**` `components/workspace/**` `components/account/**` `components/brand.tsx` `components/theme-toggle.tsx` `components/canvas/editor/**` `components/canvas/markdown-view.tsx` `lib/auth/**` `lib/http.ts` `lib/prisma.ts` `lib/types.ts` `lib/utils.ts` `lib/collab/**` `middleware.ts` `server.mjs` `prisma/**` 根配置 |
 | 看板模块 | kanban-dev | `app/(workspace)/boards/**` `app/api/boards/**` `app/api/lists/**` `app/api/cards/**` `components/kanban/**` `lib/kanban.ts` |
 | 画板库与资源 | canvas-dev | `app/(workspace)/canvases/**` `app/api/canvases/**` `app/api/assets/**` `app/api/documents/**` `components/canvas/library/**` `lib/assets.ts` |
 
@@ -95,6 +95,19 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 - 读取文件时做路径安全校验，禁止 `..` 穿越
 - `elementCount`：解析 `sceneJson.elements.length`，解析失败按 0
 
+## 7.5 账号设置 API（Lead 实现）
+
+| 方法 | 路径 | 请求 | 响应 |
+| --- | --- | --- | --- |
+| PATCH | `/api/account/profile` | `{ displayName }` | `{ user }` 并刷新会话 Cookie |
+| POST | `/api/account/password` | `{ currentPassword, newPassword, confirmPassword }` | `{ ok: true }` |
+
+规则：
+- 账号白名单仍在 `config/accounts.yml`，个人修改写入 `UserProfile` 表并覆盖配置初始值
+- 显示名会进入 JWT，用于画布协作光标与在线成员展示
+- 修改密码需要校验当前密码，bcrypt 存储，最少 6 位
+- 修改显示名后需要刷新画布，其他成员的光标才会显示新名字
+
 ## 8. 画布编辑器（Lead 实现，供参考）
 
 - 路由 `/canvas/[id]`，独立全屏页面，不在工作台侧边栏布局内
@@ -112,7 +125,7 @@ npm run typecheck       # tsc --noEmit
 npm run build           # 生产构建
 ```
 
-账号：`admin / admin123`、`maxy / maxy123`、`guest / guest123`。
+账号：`maxy / 123456`、`tannami / 123456`、`fashi / 123456`、`tomato / 123456`（默认账号，可在设置页修改显示名和密码）。
 
 ## 10. 交付要求
 
