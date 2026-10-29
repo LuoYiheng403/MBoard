@@ -12,7 +12,7 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 
 | 范围 | 负责人 | 允许修改 |
 | --- | --- | --- |
-| 基础设施、认证、工作台外壳、UI 组件、画布编辑器、协作服务、部署 | Lead | `app/layout.tsx` `app/page.tsx` `app/login/**` `app/(workspace)/layout.tsx` `app/(workspace)/settings/**` `app/canvas/**` `app/api/auth/**` `app/api/account/**` `components/ui/**` `components/workspace/**` `components/account/**` `components/brand.tsx` `components/theme-toggle.tsx` `components/canvas/editor/**` `components/canvas/markdown-view.tsx` `lib/auth/**` `lib/http.ts` `lib/prisma.ts` `lib/types.ts` `lib/utils.ts` `lib/collab/**` `middleware.ts` `server.mjs` `prisma/**` 根配置 |
+| 基础设施、认证、工作台外壳、UI 组件、画布编辑器、协作服务、部署 | Lead | `app/layout.tsx` `app/page.tsx` `app/login/**` `app/(workspace)/layout.tsx` `app/(workspace)/settings/**` `app/(workspace)/my-tasks/**` `app/canvas/**` `app/api/auth/**` `app/api/account/**` `app/api/members/**` `components/ui/**` `components/workspace/**` `components/account/**` `components/brand.tsx` `components/theme-toggle.tsx` `components/canvas/editor/**` `components/canvas/markdown-view.tsx` `lib/auth/**` `lib/members.ts` `lib/http.ts` `lib/prisma.ts` `lib/types.ts` `lib/utils.ts` `lib/collab/**` `middleware.ts` `server.mjs` `prisma/**` 根配置 |
 | 看板模块 | kanban-dev | `app/(workspace)/boards/**` `app/api/boards/**` `app/api/lists/**` `app/api/cards/**` `components/kanban/**` `lib/kanban.ts` |
 | 画板库与资源 | canvas-dev | `app/(workspace)/canvases/**` `app/api/canvases/**` `app/api/assets/**` `app/api/documents/**` `components/canvas/library/**` `lib/assets.ts` |
 
@@ -39,7 +39,7 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 
 ## 5. 类型（已定义于 `lib/types.ts`）
 
-`AppUser` `BoardSummary` `BoardDetail` `BoardPayload` `ListDTO` `CardDTO` `CardLabel` `AttachmentDTO` `CanvasSummary` `CanvasPayload` `SceneData` `DocumentDTO` `AssetDTO` `ApiError`
+`AppUser` `BoardSummary` `BoardDetail` `BoardPayload` `ListDTO` `CardDTO` `CardLabel` `MemberDTO` `AttachmentDTO` `CanvasSummary` `CanvasPayload` `SceneData` `DocumentDTO` `AssetDTO` `ApiError`
 
 附件 URL 统一为 `/api/assets/{assetId}`。
 
@@ -56,7 +56,7 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 | PATCH | `/api/lists/[id]` | `{ title? }` | `{ list: { id, title, sort } }` |
 | DELETE | `/api/lists/[id]` | - | `{ ok: true }` |
 | POST | `/api/lists/[id]/cards` | `{ title, descriptionMd? }` | `{ card: CardDTO }` 201 |
-| PATCH | `/api/cards/[id]` | `{ title?, descriptionMd?, labels?, dueDate?, archived?, coverAssetId? }` | `{ card: CardDTO }` |
+| PATCH | `/api/cards/[id]` | `{ title?, descriptionMd?, labels?, assignees?, dueDate?, archived?, coverAssetId? }` | `{ card: CardDTO }` |
 | DELETE | `/api/cards/[id]` | - | `{ ok: true }` |
 | POST | `/api/boards/[id]/reorder` | `{ lists?: {id,sort}[], cards?: {id,listId,sort}[] }` | `{ ok: true }` |
 | POST | `/api/cards/[id]/attachments` | `{ assetId }` | `{ attachment: AttachmentDTO }` 201 |
@@ -107,6 +107,18 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 - 显示名会进入 JWT，用于画布协作光标与在线成员展示
 - 修改密码需要校验当前密码，bcrypt 存储，最少 6 位
 - 修改显示名后需要刷新画布，其他成员的光标才会显示新名字
+
+## 7.6 成员与负责人（Lead 实现）
+
+| 方法 | 路径 | 请求 | 响应 |
+| --- | --- | --- | --- |
+| GET | `/api/members` | - | `{ members: MemberDTO[] }` |
+
+规则：
+- 成员列表 = `config/accounts.yml` 账号 + `UserProfile` 里的显示名/头像色覆盖
+- 卡片 `assignees` 存用户名 JSON 数组（最多 10 人），接口会校验用户名必须在配置白名单里
+- 看板页支持 `?card=<id>` 直接打开卡片详情，「我的任务」页用它跳转
+- 侧边栏「我的任务」显示当前用户被分配的任务数
 
 ## 8. 画布编辑器（Lead 实现，供参考）
 
