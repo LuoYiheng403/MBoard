@@ -131,6 +131,7 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 - 文件卡片：元素 `customData.mbFileAssetId`，支持 PDF / Office 等格式，单击打开预览或下载
 - 支持 .md / .txt / .pdf / Office / 图片 / 视频直接拖入画布：文本文档创建文档卡片，文件创建文件卡片，图片走 Excalidraw 原生插入
 - 「组合卡片」：标题 + 字段列表 + 关联文档，元素共享 groupId，整张卡片移动，文档条目单击打开
+- 原生画框：CanvasEditor 在捕获阶段接手画框内部空白处的拖拽，同步移动 frame 与 children，不用点边框
 - 「分组」按钮把任意选中元素包进带标题的容器并设置同一 groupId，拖动任意成员整体移动
 - 视频卡片：元素 `customData.mbVideoAssetId`，单击或点击播放按钮弹出播放器
 
