@@ -13,21 +13,21 @@
 
 users:
   - username: maxy
-    password: "123456"
+    passwordHash: "$2b$10$Q7r9H1JdQFZJotLLzrkPl.PT4elfpMZUDekHWy2AU54emNhq0CfnG"
     displayName: "Maxy"
     color: "#6353f5"
 
   - username: tannami
-    password: "123456"
+    passwordHash: "$2b$10$9wyZO6w0zz8XxJYBVx1rteKWxYEqxvKRyJT8HmD73RtR3Y4g2UW42"
     displayName: "Tannami"
     color: "#0ea5e9"
 
-  - username: fashi
-    password: "123456"
-    displayName: "Fashi"
+  - username: Mage
+    passwordHash: "$2b$10$9pquqdsZyAKDRZABGnnIX.aIkkV5A341ynQXVb.TlDfKaveEs.wGW"
+    displayName: "Mage"
     color: "#10b981"
 
   - username: tomato
-    password: "123456"
+    passwordHash: "$2b$10$kBkyM1WN0cqB66w75PBKBuMY48oJ0l9YJnuTmBy.DY38i86vTz/Ou"
     displayName: "Tomato"
     color: "#f59e0b"
