@@ -81,9 +81,9 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 | POST | `/api/assets` | multipart `file` + `kind?` | `{ asset: AssetDTO }` 201 |
 | GET | `/api/assets/[id]` | - | 文件二进制流（带 Content-Type/Cache-Control） |
 | GET | `/api/documents` | `?q=` 可选 | `{ documents: Omit<DocumentDTO,'contentMd'>[] }` |
-| POST | `/api/documents` | `{ title, contentMd }` | `{ document: DocumentDTO }` 201 |
+| POST | `/api/documents` | `{ title, contentMd, kind? }` | `{ document: DocumentDTO }` 201 |
 | GET | `/api/documents/[id]` | - | `{ document: DocumentDTO }` |
-| PATCH | `/api/documents/[id]` | `{ title?, contentMd? }` | `{ document: DocumentDTO }` |
+| PATCH | `/api/documents/[id]` | `{ title?, contentMd?, kind? }` | `{ document: DocumentDTO }` |
 | DELETE | `/api/documents/[id]` | - | `{ ok: true }` |
 
 资源实现要点（`lib/assets.ts`）：
@@ -125,8 +125,11 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 - 路由 `/canvas/[id]`，独立全屏页面，不在工作台侧边栏布局内
 - Yjs 数据：`elements`（Y.Map id→元素 JSON）、`order`（Y.Array id 顺序）、`meta`（appState）
 - 图片：元素 `customData.assetId` 指向 `/api/assets/{id}`，客户端按需拉取为 dataURL 注入 Excalidraw files
-- 文档卡片：元素 `customData.mbDocId`，点击后右侧面板渲染 Markdown
-- 视频卡片：元素 `customData.mbVideoAssetId`，点击弹出播放器
+- 文档卡片：元素 `customData.mbDocId`，双击直接打开编辑，选中时右侧面板自动渲染内容
+- 普通文档使用 CodeMirror 实时预览：默认渲染 Markdown，光标所在行显示原始语法
+- 表格文档（`Document.kind = "table"`）使用可视化网格编辑，保存时序列化为 Markdown 表格
+- 支持 .md / 图片 / 视频直接拖入画布：.md 创建文档卡片，视频创建视频卡片，图片走 Excalidraw 原生插入
+- 视频卡片：元素 `customData.mbVideoAssetId`，双击或点击播放按钮弹出播放器
 
 ## 9. 本地运行
 
