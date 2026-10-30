@@ -130,7 +130,8 @@ MBoard = Trello 式看板 + AFFiNE 式无限画布。固定账号登录（`confi
 - 表格文档（`Document.kind = "table"`）使用可视化网格编辑，保存时序列化为 Markdown 表格
 - 文件卡片：元素 `customData.mbFileAssetId`，支持 PDF / Office 等格式，单击打开预览或下载
 - 支持 .md / .txt / .pdf / Office / 图片 / 视频直接拖入画布：文本文档创建文档卡片，文件创建文件卡片，图片走 Excalidraw 原生插入
-- 「组合卡片」：标题 + 字段列表 + 关联文档，元素共享 groupId，整张卡片移动，文档条目单击打开
+- 「组合卡片」：整张卡是单张 SVG image，customData 存标题/字段/文档；点击打开编辑弹窗，可增删成员和调整顺序
+- 旧版多元素组合卡片在场景加载时自动迁移为单张图片，避免再出现可单独拖动内部元素的问题
 - 原生画框：CanvasEditor 在捕获阶段接手画框内部空白处的拖拽，同步移动 frame 与 children，不用点边框
 - 画框收纳：图片/文本拖入后由 Excalidraw 写入 frameId，拖出自动清除；成员数量不限，可在框内自由拖动排序
 - 「分组」按钮把任意选中元素包进带标题的容器并设置同一 groupId，拖动任意成员整体移动
